@@ -25,11 +25,35 @@ const liMaker= (value)=>{
 
 form.addEventListener("submit",function(event){
      event.preventDefault();
-    const value=amount.value+" "+description.value+" "+category.value ;
-     array.push(value);
-     localStorage.setItem('items', JSON.stringify(array))
+    // const value=amount.value+" "+description.value+" "+category.value ;
+    //  array.push(value);
+    //  localStorage.setItem('items', JSON.stringify(array))
 
-    liMaker(value);
+    
+      const amount= event.target.amount.value;
+      const description =event.target.description.value;
+      // const cat= event.category.value;
+
+      const obj ={
+        amount,
+        description,
+        // cat
+      }
+      
+      axios.post("https://crudcrud.com/api/5fc7338da07942968e0cda5f69b6aeda/appointData",obj)
+      .then(response=>{
+        console.log(response);
+      })
+      .catch(err=>console.log(err))
+    
+
+    // liMaker(value);
+
+    axios.get("https://crudcrud.com/api/5fc7338da07942968e0cda5f69b6aeda/appointData")
+    .then(response=>{
+      liMaker(response.data.amount);
+    })
+    .catch(err=>console.log(err))
 
 })
 
