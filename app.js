@@ -23,6 +23,19 @@ const liMaker= (value)=>{
     ul.appendChild(li);
 }
 
+window.addEventListener("DOMContentLoaded",()=>{
+
+  axios.get("https://crudcrud.com/api/5fc7338da07942968e0cda5f69b6aeda/appointData")
+  .then(response=>{
+   console.log(response);
+   for(let i=0;i<response.data.length;i++){
+    liMaker(JSON.stringify(response.data[i]));
+   }
+  })
+  .catch(err=>console.log(err))
+
+})
+
 form.addEventListener("submit",function(event){
      event.preventDefault();
     // const value=amount.value+" "+description.value+" "+category.value ;
@@ -32,12 +45,12 @@ form.addEventListener("submit",function(event){
     
       const amount= event.target.amount.value;
       const description =event.target.description.value;
-      // const cat= event.category.value;
+       const category= event.target.category.value;
 
       const obj ={
         amount,
         description,
-        // cat
+         category
       }
       
       axios.post("https://crudcrud.com/api/5fc7338da07942968e0cda5f69b6aeda/appointData",obj)
@@ -49,15 +62,11 @@ form.addEventListener("submit",function(event){
 
     // liMaker(value);
 
-    axios.get("https://crudcrud.com/api/5fc7338da07942968e0cda5f69b6aeda/appointData")
-    .then(response=>{
-      liMaker(response.data.amount);
-    })
-    .catch(err=>console.log(err))
+   
 
 })
 
 
-data.forEach((item) => {
-    liMaker(item)
-  })
+// data.forEach((item) => {
+//     liMaker(item)
+//   })
