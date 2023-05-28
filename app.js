@@ -22,7 +22,7 @@ const liMaker = (value) => {
     console.log("btn clicked" + obj._id);
     axios
       .delete(
-        "https://crudcrud.com/api/33ae9a8d0fed49d6acec3b9a7ed6aa98/appointData/" +
+        "https://crudcrud.com/api/2862a78eb2a94d0da75b68efb1618d30/appointData/" +
           obj._id
       )
       .then((response) => {
@@ -50,7 +50,7 @@ const liMaker = (value) => {
 window.addEventListener("DOMContentLoaded", () => {
   axios
     .get(
-      "https://crudcrud.com/api/33ae9a8d0fed49d6acec3b9a7ed6aa98/appointData"
+      "https://crudcrud.com/api/2862a78eb2a94d0da75b68efb1618d30/appointData"
     )
     .then((response) => {
       // console.log(response);
@@ -77,58 +77,69 @@ form.addEventListener("submit", function (event) {
     category,
   };
 
-  let flag = false;
+  
 
   axios
     .get(
-      "https://crudcrud.com/api/33ae9a8d0fed49d6acec3b9a7ed6aa98/appointData/"
+      "https://crudcrud.com/api/2862a78eb2a94d0da75b68efb1618d30/appointData/"
     )
     .then((response) => {
-      for (let i = 0; i < response.data.length; i++) {
-        if (response.data[i]._id === editID) {
-          flag = true;
-          axios
+
+      let dataArray= response.data;
+      console.log(editID+" edit id ");
+      let result= dataArray.filter(object=>{
+        return object._id=== editID;
+      })
+       
+       if(result.length>=1){
+
+        axios
             .put(
-              "https://crudcrud.com/api/33ae9a8d0fed49d6acec3b9a7ed6aa98/appointData/" +
+              "https://crudcrud.com/api/2862a78eb2a94d0da75b68efb1618d30/appointData/" +
                 editID,
               obj
             )
             .then((response) => {
+              location.reload();
               
-              console.log(response.data);
+              console.log(response);
             })
-            .catch((err) => console.log(err));;
-        }
-      }
-    });
+            .catch((err) => console.log(err));
 
-  if(!flag){
-    axios
-    .post(
-      "https://crudcrud.com/api/33ae9a8d0fed49d6acec3b9a7ed6aa98/appointData",
-      obj
-    )
-    .then((response) => {
-      id = response.data._id;
+       }
 
-      axios
-        .get(
-          "https://crudcrud.com/api/33ae9a8d0fed49d6acec3b9a7ed6aa98/appointData/" +
-            id
+       else{
+        axios
+        .post(
+          "https://crudcrud.com/api/2862a78eb2a94d0da75b68efb1618d30/appointData",
+          obj
         )
         .then((response) => {
-          console.log(response);
-          //  for(let i=0;i<response.data.length;i++){
-          //   liMaker(JSON.stringify(response.data[i]));
-          //  }
-
-          liMaker(JSON.stringify(response.data));
+          id = response.data._id;
+    
+          axios
+            .get(
+              "https://crudcrud.com/api/2862a78eb2a94d0da75b68efb1618d30/appointData/" +
+                id
+            )
+            .then((response) => {
+              console.log(response);
+              //  for(let i=0;i<response.data.length;i++){
+              //   liMaker(JSON.stringify(response.data[i]));
+              //  }
+    
+              liMaker(JSON.stringify(response.data));
+            })
+            .catch((err) => console.log(err));
+          // console.log(response.data._id);
         })
         .catch((err) => console.log(err));
-      // console.log(response.data._id);
-    })
-    .catch((err) => console.log(err));
-  }
+      }
+
+      
+    });
+
+  
 
   // liMaker(value);
 });
