@@ -41,7 +41,7 @@ const liMaker = (value) => {
     category.value = obj.category;
     editID = obj._id;
   });
-  li.textContent = value + " ";
+  li.textContent = obj.amount+" "+obj.description+", Category :"+obj.category + " ";
   li.appendChild(btn2);
   li.appendChild(button);
   ul.appendChild(li);
